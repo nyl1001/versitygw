@@ -236,22 +236,18 @@ source ./tests/commands/select_object_content.sh
 #  [[ $get_result -ne 0 ]] || fail "Get object with zero range returned no error"
 #}
 
-#@test "test_get_object_full_range" {
-#  bucket_file="bucket_file"
-#
-#  create_test_files "$bucket_file" || local created=$?
-#  [[ $created -eq 0 ]] || fail "Error creating test files"
-#  echo -n "0123456789" > "$test_file_folder/$bucket_file"
-#  setup_bucket "s3api" "$BUCKET_ONE_NAME" || local setup_result=$?
-#  [[ $setup_result -eq 0 ]] || fail "error setting up bucket"
-#  put_object "s3api" "$test_file_folder/$bucket_file" "$BUCKET_ONE_NAME" "$bucket_file" || fail "error putting object"
-#  get_object_with_range "$BUCKET_ONE_NAME" "$bucket_file" "bytes=9-15" "$test_file_folder/$bucket_file-range" || fail "error getting range"
-#  cat "$test_file_folder/$bucket_file"
-#  cat "$test_file_folder/$bucket_file-range"
-#  ls -l "$test_file_folder/$bucket_file"
-#  ls -l "$test_file_folder/$bucket_file-range"
-#  compare_files "$test_file_folder/$bucket_file" "$test_file_folder/$bucket_file-range" || fail "files not equal"
-#}
+@test "test_get_object_full_range" {
+  bucket_file="bucket_file"
+
+  create_test_files "$bucket_file" || local created=$?
+  [[ $created -eq 0 ]] || fail "Error creating test files"
+  echo -n "0123456789" > "$test_file_folder/$bucket_file"
+  setup_bucket "s3api" "$BUCKET_ONE_NAME" || local setup_result=$?
+  [[ $setup_result -eq 0 ]] || fail "error setting up bucket"
+  put_object "s3api" "$test_file_folder/$bucket_file" "$BUCKET_ONE_NAME" "$bucket_file" || fail "error putting object"
+  get_object_with_range "$BUCKET_ONE_NAME" "$bucket_file" "bytes=9-15" "$test_file_folder/$bucket_file-range" || fail "error getting range"
+  [[ "$(cat "$test_file_folder/$bucket_file-range")" == "9" ]] || fail "byte range not copied properly"
+}
 
 @test "test_put_object" {
   bucket_file="bucket_file"
