@@ -47,3 +47,12 @@ setup_policy_with_single_statement() {
 EOF
 log 5 "$(cat "$1")"
 }
+
+#get_principal() {
+#  if [[ $DIRECT == "true" ]]; then
+#  fi
+#}
+
+#compare_principal() {
+
+#}
