@@ -83,7 +83,7 @@ func New(
 		AllowMethods:     "GET,POST,HEAD,PUT,DELETE,PATCH,OPTIONS", // 允许所有的HTTP方法
 		AllowHeaders:     "*",                                      // 允许所有的请求头
 		ExposeHeaders:    "*",                                      // 允许客户端访问所有的响应头
-		AllowCredentials: true,                                     // 允许跨域请求携带Cookie或认证信息
+		AllowCredentials: false,                                    // 不允许跨域请求携带Cookie或认证信息
 		MaxAge:           86400,                                    // 预检请求的缓存时间，最大限度地长（1天）
 	}))
 	app.Use(middlewares.DecodeURL(l, mm))
