@@ -1,0 +1,16 @@
+linters:
+  enable:
+    - gofmt
+    - gosec
+    - unconvert
+    - misspell
+    - goimports
+    - megacheck
+    - staticcheck
+    - unused
+    - typecheck
+    - ineffassign
+    - revive
+    - stylecheck
+    - unparam
+    - nakedret
