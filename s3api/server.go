@@ -19,11 +19,13 @@ import (
 	"net/http"
 
 	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v2/middleware/cors"
 	"github.com/gofiber/fiber/v2/middleware/logger"
 	"github.com/versity/versitygw/auth"
 	"github.com/versity/versitygw/backend"
 	"github.com/versity/versitygw/metrics"
 	"github.com/versity/versitygw/s3api/middlewares"
+
 	"github.com/versity/versitygw/s3event"
 	"github.com/versity/versitygw/s3log"
 )
@@ -75,6 +77,15 @@ func New(
 			return ctx.SendStatus(http.StatusOK)
 		})
 	}
+	// 使用最宽松的 CORS 配置，允许所有的跨域请求
+	app.Use(cors.New(cors.Config{
+		AllowOrigins:     "*",                                      // 允许所有的来源
+		AllowMethods:     "GET,POST,HEAD,PUT,DELETE,PATCH,OPTIONS", // 允许所有的HTTP方法
+		AllowHeaders:     "*",                                      // 允许所有的请求头
+		ExposeHeaders:    "*",                                      // 允许客户端访问所有的响应头
+		AllowCredentials: true,                                     // 允许跨域请求携带Cookie或认证信息
+		MaxAge:           86400,                                    // 预检请求的缓存时间，最大限度地长（1天）
+	}))
 	app.Use(middlewares.DecodeURL(l, mm))
 	app.Use(middlewares.RequestLogger(server.debug))
 
